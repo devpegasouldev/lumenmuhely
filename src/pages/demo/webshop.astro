@@ -1,71 +1,225 @@
 ---
 import DemoLayout from '../../layouts/DemoLayout.astro';
-import DemoHeader from '../../components/demo/DemoHeader.astro';
-import DemoFooter from '../../components/demo/DemoFooter.astro';
 import DemoArt from '../../components/DemoArt.astro';
+
 const cats = ['Mind', 'Otthon', 'Iroda'];
 const products = [
-  { n: 'Kerámia bögre', c: 'Otthon', p: 4900, a: 'mug' }, { n: 'Illatgyertya', c: 'Otthon', p: 3900, a: 'candle' },
-  { n: 'Vászon táska', c: 'Otthon', p: 5500, a: 'tote' }, { n: 'Bőr jegyzetfüzet', c: 'Iroda', p: 6500, a: 'notebook' },
-  { n: 'Fa asztali rendező', c: 'Iroda', p: 9900, a: 'organizer' }, { n: 'Tolltartó', c: 'Iroda', p: 3200, a: 'pencase' },
+  { id: 'mug', n: 'Kerámia bögre', c: 'Otthon', p: 4900, tag: 'Új', desc: 'Kézzel korongozott, 3 dl-es bögre matt mázzal. Minden darab kicsit egyedi.', det: ['3 dl űrtartalom', 'Mosogatógépben mosható', 'Kis szériás gyártás'] },
+  { id: 'candle', n: 'Illatgyertya', c: 'Otthon', p: 3900, tag: '', desc: 'Szójaviaszból készült gyertya fahéj és narancs illattal, üvegben.', det: ['Kb. 40 óra égési idő', 'Növényi viasz', 'Újratölthető üveg'] },
+  { id: 'tote', n: 'Vászon táska', c: 'Otthon', p: 5500, tag: '', desc: 'Strapabíró, vastag pamutvászon bevásárlótáska belső zsebbel.', det: ['100% pamut', 'Belső zseb', 'Mosható 30 fokon'] },
+  { id: 'notebook', n: 'Bőr jegyzetfüzet', c: 'Iroda', p: 6500, tag: 'Limitált', desc: 'Kézzel fűzött, vonalas jegyzetfüzet valódi bőr borítóval.', det: ['A5 méret, 120 oldal', 'Krémszínű, savmentes papír', 'Cserélhető betét'] },
+  { id: 'organizer', n: 'Fa asztali rendező', c: 'Iroda', p: 9900, tag: '', desc: 'Tömör fából készült rendező három rekesszel íróeszközöknek és apróságoknak.', det: ['Tömör bükkfa', 'Három rekesz', 'Olajozott felület'] },
+  { id: 'pencase', n: 'Tolltartó', c: 'Iroda', p: 3200, tag: '', desc: 'Cipzáras, puha tolltartó, amelybe egy egész napi írószer belefér.', det: ['Cipzáras zárás', 'Vízlepergető anyag', '20 cm hosszú'] },
 ];
-const perks = [{ t: 'Gyors szállítás', d: 'Raktárról 1–2 munkanap.' }, { t: '14 napos visszaküldés', d: 'Indoklás nélkül.' }, { t: 'Kézzel készült', d: 'Kis szériás termékek.' }];
+const perks = [
+  { t: 'Ingyenes szállítás', d: '15 000 Ft feletti rendelésnél.' },
+  { t: '14 napos visszaküldés', d: 'Indoklás nélkül.' },
+  { t: 'Kézzel készült', d: 'Kis szériás, gondosan ellenőrzött termékek.' },
+];
 ---
-<DemoLayout title="E-commerce Webshop Koncepció">
+<DemoLayout title="Kis Bolt | Kézműves apróságok (Webshop Koncepció)">
   <div id="top" class="min-h-screen bg-stone-50 font-sans text-stone-800">
-    <DemoHeader brand="Kis Bolt" links={[{ href: '#termekek', label: 'Termékek' }, { href: '#miert', label: 'Miért mi?' }]} cta="Kosár" ctaHref="#kosar" brandClass="text-rose-700" btnClass="bg-rose-600 hover:bg-rose-700" />
+    <header class="sticky top-0 z-30 border-b border-stone-200 bg-stone-50/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <a href="#top" class="font-display text-2xl font-extrabold text-rose-700">Kis Bolt</a>
+        <nav aria-label="Fő navigáció" class="hidden gap-7 md:flex">
+          <a href="#termekek" class="text-sm text-stone-600 transition hover:text-rose-700">Termékek</a>
+          <a href="#miert" class="text-sm text-stone-600 transition hover:text-rose-700">Miért mi?</a>
+          <a href="#hirlevel" class="text-sm text-stone-600 transition hover:text-rose-700">Hírlevél</a>
+        </nav>
+        <button id="open-cart" type="button" class="relative rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700">
+          Kosár
+          <span id="badge" class="absolute -right-2 -top-2 hidden h-6 min-w-6 place-items-center rounded-full bg-rose-600 px-1 text-xs">0</span>
+        </button>
+      </div>
+    </header>
+
     <main>
       <section class="mx-auto max-w-6xl px-5 py-8">
         <div class="grid items-center gap-8 rounded-3xl bg-rose-100 p-8 md:grid-cols-2 md:p-12">
           <div>
-            <h1 class="font-display text-5xl font-extrabold leading-tight text-stone-900">Kézműves apróságok az otthonodba.</h1>
-            <p class="mt-4 max-w-[42ch] text-lg text-stone-600">Kis szériás bögrék, gyertyák és irodai kiegészítők, amelyekből mindig van egy kedvenced.</p>
-            <a href="#termekek" class="mt-7 inline-block rounded-xl bg-stone-900 px-7 py-3 font-semibold text-white transition hover:bg-rose-700">Termékek megtekintése</a>
+            <p class="inline-block rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-rose-700">Ingyenes szállítás 15 000 Ft felett</p>
+            <h1 class="mt-5 font-display text-5xl font-extrabold leading-tight text-stone-900 sm:text-6xl">Kézműves apróságok az otthonodba.</h1>
+            <p class="mt-4 max-w-[42ch] text-lg text-stone-600">Kis szériás bögrék, gyertyák és irodai kiegészítők, amelyekből mindig lesz egy új kedvenced.</p>
+            <a href="#termekek" class="mt-7 inline-block rounded-xl bg-stone-900 px-7 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-rose-700">Termékek megtekintése</a>
           </div>
-          <div class="h-64 overflow-hidden rounded-2xl shadow-lg"><DemoArt name="mug" label="Kerámia bögre" /></div>
+          <div class="h-64 overflow-hidden rounded-2xl shadow-lg md:h-80"><DemoArt name="mug" label="Kerámia bögre" /></div>
         </div>
       </section>
 
-      <section id="termekek" class="mx-auto max-w-6xl scroll-mt-4 px-5 py-12" aria-labelledby="th">
-        <div class="flex flex-wrap items-center justify-between gap-4">
+      <section id="termekek" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-12" aria-labelledby="th">
+        <div class="flex flex-wrap items-end justify-between gap-4">
           <h2 id="th" class="font-display text-3xl font-extrabold text-stone-900">Termékeink</h2>
-          <div class="flex gap-2" role="group" aria-label="Kategóriák">
-            {cats.map((c, i) => <button data-f={c} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-stone-300 px-4 py-2 text-sm transition aria-pressed:border-rose-600 aria-pressed:bg-rose-600 aria-pressed:text-white">{c}</button>)}
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex gap-2" role="group" aria-label="Kategóriák">
+              {cats.map((c, i) => <button type="button" data-f={c} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-stone-300 px-4 py-2 text-sm transition aria-pressed:border-rose-600 aria-pressed:bg-rose-600 aria-pressed:text-white">{c}</button>)}
+            </div>
+            <label class="sr-only" for="sort">Rendezés</label>
+            <select id="sort" class="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm">
+              <option value="i">Alapértelmezett</option><option value="asc">Ár: növekvő</option><option value="desc">Ár: csökkenő</option>
+            </select>
           </div>
         </div>
         <ul id="grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((p) => (
-            <li data-c={p.c} class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-stone-200 transition hover:-translate-y-1 hover:shadow-md">
-              <div class="h-44"><DemoArt name={p.a} label={p.n} /></div>
+          {products.map((p, i) => (
+            <li data-id={p.id} data-c={p.c} data-p={p.p} data-i={i} data-n={p.n} data-desc={p.desc} data-det={p.det.join('|')} class="group overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-stone-200 transition hover:-translate-y-1 hover:shadow-md">
+              <button type="button" data-view class="relative block h-48 w-full overflow-hidden text-left" aria-label={`${p.n} részletei`}>
+                <div class="h-full transition duration-500 group-hover:scale-105"><DemoArt name={p.id} label={p.n} /></div>
+                {p.tag && <span class="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-xs font-semibold text-rose-700">{p.tag}</span>}
+              </button>
               <div class="p-5">
                 <h3 class="font-display text-lg font-bold">{p.n}</h3>
                 <p class="text-stone-500">{p.p.toLocaleString('hu-HU')} Ft</p>
-                <button data-add={p.p} class="mt-4 w-full rounded-xl bg-stone-900 py-2.5 font-semibold text-white transition hover:bg-rose-700">Kosárba</button>
+                <button type="button" data-add class="mt-4 w-full rounded-xl bg-stone-900 py-2.5 font-semibold text-white transition hover:bg-rose-700">Kosárba</button>
               </div>
             </li>
           ))}
         </ul>
-        <p id="kosar" class="mt-8 scroll-mt-20 rounded-2xl bg-white p-5 font-semibold shadow-sm ring-1 ring-stone-200" aria-live="polite">Kosár: <span id="cnt">0</span> termék, összesen <span id="sum">0</span> Ft</p>
       </section>
 
-      <section id="miert" class="mx-auto grid max-w-6xl scroll-mt-4 gap-5 px-5 py-8 md:grid-cols-3" aria-label="Előnyök">
+      <section id="miert" class="mx-auto grid max-w-6xl scroll-mt-20 gap-5 px-5 py-8 md:grid-cols-3" aria-label="Előnyök">
         {perks.map((p) => <div class="rounded-2xl bg-white p-6 ring-1 ring-stone-200"><h3 class="font-display text-lg font-bold text-rose-700">{p.t}</h3><p class="mt-1 text-stone-600">{p.d}</p></div>)}
       </section>
+
+      <section id="hirlevel" class="mx-auto max-w-3xl scroll-mt-20 px-5 py-12">
+        <form id="nl" class="rounded-3xl bg-stone-900 p-8 text-center text-white">
+          <h2 class="font-display text-2xl font-extrabold">Értesülj elsőként az újdonságokról</h2>
+          <p class="mt-2 text-stone-300">Havonta legfeljebb egy levél, spam nélkül.</p>
+          <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+            <label class="sr-only" for="em">E-mail-cím</label>
+            <input id="em" type="email" required placeholder="te@pelda.hu" class="flex-1 rounded-xl px-4 py-3 text-stone-900" />
+            <button class="rounded-xl bg-rose-600 px-6 py-3 font-semibold transition hover:bg-rose-500">Feliratkozom</button>
+          </div>
+          <p id="nl-ok" class="mt-4 hidden text-emerald-300" role="status">Köszönjük! (Ez demó, ezért az e-mail-cím nem kerül elmentésre.)</p>
+        </form>
+      </section>
     </main>
-    <DemoFooter brand="Kis Bolt" />
+
+    <footer class="mt-8 border-t border-stone-200 px-5 py-8 text-center text-sm text-stone-500">
+      © {new Date().getFullYear()} Kis Bolt. Kitalált minta bolt, a webshopot a Lumen műhely készítette koncepcióként.
+    </footer>
+
+    <dialog id="cart" aria-labelledby="cart-h" class="m-0 ml-auto h-dvh max-h-none w-full max-w-md bg-white p-0 text-stone-800 backdrop:bg-black/40 open:flex open:flex-col">
+      <div class="flex items-center justify-between border-b border-stone-200 p-5">
+        <h2 id="cart-h" class="font-display text-2xl font-extrabold">Kosarad</h2>
+        <button type="button" data-close class="rounded-lg px-3 py-1 text-sm ring-1 ring-stone-300">Bezár</button>
+      </div>
+      <div class="flex-1 overflow-y-auto px-5">
+        <p id="empty" class="py-10 text-center text-stone-500">A kosarad még üres. Nézz körül a termékek között!</p>
+        <ul id="lines" class="divide-y divide-stone-200"></ul>
+      </div>
+      <div class="border-t border-stone-200 p-5">
+        <p id="ship" class="text-sm text-stone-600"></p>
+        <div class="mt-2 h-2 overflow-hidden rounded-full bg-stone-200"><div id="bar" class="h-full w-0 rounded-full bg-rose-600 transition-all duration-500"></div></div>
+        <p class="mt-4 flex justify-between text-lg font-bold"><span>Összesen</span><span><span id="total">0</span> Ft</span></p>
+        <button id="checkout" type="button" disabled class="mt-4 w-full rounded-xl bg-rose-600 py-3 font-semibold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-40">Tovább a pénztárhoz</button>
+        <p id="co-ok" class="mt-3 hidden rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800" role="status">Ez demó, ezért a fizetés itt véget ér. Éles boltban ide jönne a szállítási és fizetési lépés.</p>
+      </div>
+    </dialog>
+
+    <dialog id="qv" aria-labelledby="qv-n" class="m-auto w-[min(92vw,42rem)] rounded-3xl bg-white p-0 text-stone-800 backdrop:bg-black/40">
+      <div class="grid md:grid-cols-2">
+        <div id="qv-art" class="h-56 overflow-hidden md:h-full md:min-h-72"></div>
+        <div class="p-7">
+          <h2 id="qv-n" class="font-display text-2xl font-extrabold"></h2>
+          <p id="qv-p" class="mt-1 text-lg font-semibold text-rose-700"></p>
+          <p id="qv-d" class="mt-3 leading-relaxed text-stone-600"></p>
+          <ul id="qv-l" class="mt-4 space-y-1 text-sm text-stone-600"></ul>
+          <div class="mt-6 flex gap-3">
+            <button id="qv-add" type="button" class="flex-1 rounded-xl bg-stone-900 py-3 font-semibold text-white transition hover:bg-rose-700">Kosárba</button>
+            <button type="button" data-close class="rounded-xl px-4 py-3 ring-1 ring-stone-300">Bezár</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <p id="toast" role="status" class="pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-stone-900 px-5 py-3 text-sm text-white opacity-0 transition-opacity"></p>
   </div>
+
   <script>
-    let n = 0, s = 0;
-    const $ = (id: string) => document.getElementById(id)!;
-    document.querySelectorAll<HTMLButtonElement>('[data-add]').forEach((b) =>
-      b.addEventListener('click', () => { n++; s += Number(b.dataset.add); $('cnt').textContent = String(n); $('sum').textContent = s.toLocaleString('hu-HU'); })
-    );
+    type Item = { id: string; n: string; p: number; q: number };
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const fmt = (n: number) => n.toLocaleString('hu-HU');
+    const FREE = 15000;
+    let cart: Item[] = [];
+    try { cart = JSON.parse(localStorage.getItem('kb-cart') || '[]'); } catch {}
+    const cartDlg = $<HTMLDialogElement>('cart'), qv = $<HTMLDialogElement>('qv');
+    let qvItem: HTMLElement | null = null, timer = 0;
+
+    function toast(t: string) {
+      const el = $('toast'); el.textContent = t; el.style.opacity = '1';
+      clearTimeout(timer); timer = window.setTimeout(() => (el.style.opacity = '0'), 1800);
+    }
+    function ctl(label: string, act: string, id: string, aria: string, cls = 'grid h-8 w-8 place-items-center rounded-lg ring-1 ring-stone-300') {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = label; b.className = cls; b.dataset.act = act; b.dataset.id = id; b.setAttribute('aria-label', aria);
+      return b;
+    }
+    function render() {
+      const count = cart.reduce((a, i) => a + i.q, 0), total = cart.reduce((a, i) => a + i.q * i.p, 0);
+      const badge = $('badge'); badge.textContent = String(count); badge.classList.toggle('hidden', count === 0); badge.classList.toggle('grid', count > 0);
+      const list = $('lines'); list.replaceChildren();
+      cart.forEach((i) => {
+        const li = document.createElement('li'); li.className = 'flex items-center justify-between gap-3 py-4';
+        const info = document.createElement('div');
+        const nm = document.createElement('p'); nm.className = 'font-semibold'; nm.textContent = i.n;
+        const pr = document.createElement('p'); pr.className = 'text-sm text-stone-500'; pr.textContent = `${fmt(i.p)} Ft`;
+        info.append(nm, pr);
+        const c = document.createElement('div'); c.className = 'flex items-center gap-2';
+        const q = document.createElement('span'); q.className = 'w-6 text-center'; q.textContent = String(i.q);
+        c.append(ctl('−', 'dec', i.id, `${i.n} mennyiségének csökkentése`), q, ctl('+', 'inc', i.id, `${i.n} mennyiségének növelése`), ctl('Törlés', 'del', i.id, `${i.n} törlése`, 'ml-1 text-xs text-rose-700 underline'));
+        li.append(info, c); list.append(li);
+      });
+      $('empty').classList.toggle('hidden', count > 0);
+      $('total').textContent = fmt(total);
+      $('bar').style.width = `${Math.min(100, (total / FREE) * 100)}%`;
+      $('ship').textContent = count === 0 ? `Ingyenes szállítás ${fmt(FREE)} Ft felett.` : total >= FREE ? 'Gratulálunk, a szállítás ingyenes!' : `Még ${fmt(FREE - total)} Ft, és a szállítás ingyenes.`;
+      $<HTMLButtonElement>('checkout').disabled = count === 0;
+      try { localStorage.setItem('kb-cart', JSON.stringify(cart)); } catch {}
+    }
+    function add(id: string, n: string, p: number) {
+      const f = cart.find((i) => i.id === id);
+      if (f) f.q++; else cart.push({ id, n, p, q: 1 });
+      render(); toast(`Kosárba tetted: ${n}`);
+    }
+
+    document.querySelectorAll<HTMLElement>('#grid > li').forEach((li) => {
+      li.querySelector('[data-add]')!.addEventListener('click', () => add(li.dataset.id!, li.dataset.n!, Number(li.dataset.p)));
+      li.querySelector('[data-view]')!.addEventListener('click', () => {
+        qvItem = li;
+        $('qv-art').replaceChildren(li.querySelector('svg')!.cloneNode(true));
+        $('qv-n').textContent = li.dataset.n!; $('qv-p').textContent = `${fmt(Number(li.dataset.p))} Ft`; $('qv-d').textContent = li.dataset.desc!;
+        const l = $('qv-l'); l.replaceChildren();
+        li.dataset.det!.split('|').forEach((d) => { const e = document.createElement('li'); e.textContent = `✓ ${d}`; l.append(e); });
+        qv.showModal();
+      });
+    });
+    $('qv-add').addEventListener('click', () => { if (qvItem) add(qvItem.dataset.id!, qvItem.dataset.n!, Number(qvItem.dataset.p)); qv.close(); });
+    $('lines').addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-act]'); if (!b) return;
+      const it = cart.find((i) => i.id === b.dataset.id); if (!it) return;
+      if (b.dataset.act === 'inc') it.q++; else if (b.dataset.act === 'dec') it.q--; else it.q = 0;
+      cart = cart.filter((i) => i.q > 0); render();
+    });
+    $('open-cart').addEventListener('click', () => { $('co-ok').classList.add('hidden'); cartDlg.showModal(); });
+    $('checkout').addEventListener('click', () => $('co-ok').classList.remove('hidden'));
+    [cartDlg, qv].forEach((d) => {
+      d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+      d.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => d.close()));
+    });
+
+    const grid = $('grid');
     const fs = document.querySelectorAll<HTMLButtonElement>('[data-f]');
-    fs.forEach((b) =>
-      b.addEventListener('click', () => {
-        fs.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        document.querySelectorAll<HTMLElement>('#grid [data-c]').forEach((li) => li.classList.toggle('hidden', b.dataset.f !== 'Mind' && li.dataset.c !== b.dataset.f));
-      })
-    );
+    fs.forEach((b) => b.addEventListener('click', () => {
+      fs.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      grid.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => li.classList.toggle('hidden', b.dataset.f !== 'Mind' && li.dataset.c !== b.dataset.f));
+    }));
+    $<HTMLSelectElement>('sort').addEventListener('change', (e) => {
+      const v = (e.target as HTMLSelectElement).value;
+      const key = (li: Element) => Number((li as HTMLElement).dataset[v === 'i' ? 'i' : 'p']);
+      Array.from(grid.children).sort((a, b) => (v === 'desc' ? key(b) - key(a) : key(a) - key(b))).forEach((li) => grid.append(li));
+    });
+    $<HTMLFormElement>('nl').addEventListener('submit', (e) => { e.preventDefault(); $('nl-ok').classList.remove('hidden'); });
+    render();
   </script>
 </DemoLayout>

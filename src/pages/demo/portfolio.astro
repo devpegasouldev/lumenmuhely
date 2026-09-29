@@ -1,65 +1,187 @@
 ---
 import DemoLayout from '../../layouts/DemoLayout.astro';
-import DemoHeader from '../../components/demo/DemoHeader.astro';
-import DemoFooter from '../../components/demo/DemoFooter.astro';
 import DemoArt from '../../components/DemoArt.astro';
+
+const nav = [{ href: '#munkak', label: 'Munkák' }, { href: '#arak', label: 'Csomagok' }, { href: '#folyamat', label: 'Folyamat' }, { href: '#rolam', label: 'Rólam' }];
+const cats = ['Mind', 'Arculat', 'Digitális', 'Nyomtatott'];
 const works = [
-  { t: 'Kávézó arculat', d: 'Logó, csomagolás és menütervek egy helyi kávézónak.', a: 'brand' },
-  { t: 'Applikáció-felület', d: 'Mobilos felület kattintható prototípussal.', a: 'app' },
-  { t: 'Rendezvény-plakát', d: 'Nyomtatott és digitális kampányanyagok.', a: 'poster' },
+  { id: 'brand', t: 'Kávézó arculat', c: 'Arculat', brief: 'Egy induló kávézónak olyan megjelenés kellett, amely a szomszédságban is felismerhető, és a csomagoláson is jól mutat.', sol: 'Egyszerű, kerek jelet terveztem gőzölgő csésze motívummal, meleg lila-krém színvilággal és egy jól olvasható betűtípus-párral.', out: ['Logó és színpaletta', 'Poharak és zacskók tervei', 'Menüs tábla sablon'] },
+  { id: 'pack', t: 'Csokoládé csomagolás', c: 'Nyomtatott', brief: 'Kézműves csokoládé-manufaktúrának kellett ajándékozásra alkalmas, jól kirakható doboz.', sol: 'Kompakt dobozforma, letisztult mintával és egy kiemelt színes pecséttel, amely a termékvonalakat különbözteti meg.', out: ['Dobozterv nyomdakész fájlokkal', 'Belső betét terve', 'Matrica- és szalagminta'] },
+  { id: 'app', t: 'Fitnesz app felület', c: 'Digitális', brief: 'Egy edzéskövető appnak átláthatóbb, motiválóbb kezdőképernyőre volt szüksége.', sol: 'Kártyás felépítést terveztem, nagy, jól kattintható elemekkel és egyértelmű vizuális hierarchiával.', out: ['Kattintható prototípus', 'Komponenskönyvtár', 'Fejlesztői átadó anyagok'] },
+  { id: 'social', t: 'Közösségi média sablonok', c: 'Digitális', brief: 'Egy kisvállalkozás egységes, könnyen szerkeszthető posztokat szeretett volna.', sol: 'Szerkeszthető sablonrendszert készítettem, amelyben a színek és a szövegek pár perc alatt cserélhetők.', out: ['12 poszt- és story-sablon', 'Színes és betűtípus-útmutató', 'Rövid használati leírás'] },
+  { id: 'poster', t: 'Zenei fesztivál plakát', c: 'Nyomtatott', brief: 'Egy helyi zenei esemény plakátjának messziről is fel kellett tűnnie.', sol: 'Merész, kétszínű formákat és nagy betűket használtam, hogy a lényeg egy pillantásra kiolvasható legyen.', out: ['A2 és A4 nyomdakész plakát', 'Digitális banner-változatok', 'Program-szórólap terve'] },
+  { id: 'folio', t: 'Tanácsadó cég arculat', c: 'Arculat', brief: 'Egy induló tanácsadó cég megbízható, mégis modern megjelenést kért.', sol: 'Geometrikus jelet és visszafogott színvilágot választottam, amely névjegyen és weboldalon is jól működik.', out: ['Logó és arculati kézikönyv', 'Névjegy és levélpapír', 'Prezentáció-sablon'] },
 ];
-const services = ['Logó- és arculattervezés', 'Nyomtatott anyagok', 'Weboldal- és appfelület-tervek', 'Közösségi média sablonok'];
-const rates = [{ n: 'Logótervezés', p: '80 000 Ft-tól' }, { n: 'Arculati csomag', p: '180 000 Ft-tól' }, { n: 'Óradíj', p: '9 000 Ft' }];
+const plans = [
+  { n: 'Logó', p: '80 000 Ft-tól', d: 'Induló vállalkozásoknak', f: ['2 tervváltozat', '2 módosítási kör', 'Logó minden formátumban'], hi: false },
+  { n: 'Arculat', p: '180 000 Ft-tól', d: 'A legtöbb kisvállalkozásnak', f: ['Logó és színvilág', 'Betűtípusok és minták', 'Névjegy és alapvető sablonok', 'Arculati kézikönyv'], hi: true },
+  { n: 'Teljes megjelenés', p: '290 000 Ft-tól', d: 'Nyomtatott és digitális felületekre', f: ['Minden az Arculat csomagból', 'Közösségi média sablonok', 'Csomagolás vagy kiadvány terve', 'Nyomdai előkészítés'], hi: false },
+];
+const steps = [
+  { t: 'Beszélgetés', d: 'Megismerem a vállalkozásod, a célközönséged és az elképzeléseidet.' },
+  { t: 'Vázlatok', d: 'Néhány irányt mutatok, és közösen kiválasztjuk a legjobbat.' },
+  { t: 'Finomítás', d: 'A visszajelzéseid alapján csiszolom a részleteket.' },
+  { t: 'Átadás', d: 'Minden fájlt átadok, és elmagyarázom, hogyan használd őket.' },
+];
+const faq = [
+  { q: 'Mennyi ideig tart egy arculat?', a: 'Egy átlagos arculat 3–4 hét, a logó általában 1–2 hét. A pontos határidőt az első beszélgetés után mondom meg.' },
+  { q: 'Hány módosítást kérhetek?', a: 'A csomagok tartalmazzák a módosítási köröket. Ha többre van szükséged, előre megbeszéljük, mennyibe kerül.' },
+  { q: 'Milyen fájlokat kapok?', a: 'Nyomtatásra és digitális használatra is alkalmas formátumokat (például SVG, PDF, PNG), rendszerezett mappában.' },
+];
 ---
-<DemoLayout title="Szolgáltatói Portfólió Minta">
+<DemoLayout title="Minta Dóri | Grafikus portfólió (Szolgáltatói Portfólió Minta)">
   <div id="top" class="min-h-screen bg-white font-sans text-slate-800">
-    <DemoHeader brand="Minta Dóri" links={[{ href: '#munkak', label: 'Munkák' }, { href: '#arak', label: 'Árak' }]} cta="Írj nekem" ctaHref="mailto:minta@pelda.hu" brandClass="text-violet-700" btnClass="bg-violet-600 hover:bg-violet-700" />
+    <header class="sticky top-0 z-40 border-b border-violet-100 bg-white/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+        <a href="#top" class="font-display text-2xl font-extrabold text-violet-700">Minta Dóri</a>
+        <nav aria-label="Fő navigáció" class="hidden gap-7 md:flex">{nav.map((l) => <a href={l.href} class="text-sm text-slate-600 transition hover:text-violet-700">{l.label}</a>)}</nav>
+        <div class="flex items-center gap-3">
+          <a href="#kapcsolat" class="hidden rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-violet-700 md:block">Írj nekem</a>
+          <button id="mb" type="button" aria-expanded="false" aria-controls="mm" aria-label="Menü megnyitása" class="rounded-lg p-2 ring-1 ring-violet-200 md:hidden"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg></button>
+        </div>
+      </div>
+      <nav id="mm" aria-label="Mobil navigáció" class="hidden border-t border-violet-100 px-5 pb-4 md:hidden">
+        {nav.map((l) => <a href={l.href} class="block py-3">{l.label}</a>)}<a href="#kapcsolat" class="block py-3 font-semibold text-violet-700">Írj nekem</a>
+      </nav>
+    </header>
+
     <main>
       <section class="mx-auto grid max-w-6xl items-center gap-10 px-5 py-12 md:grid-cols-2 md:py-20">
         <div>
-          <p class="font-semibold text-violet-600">Szabadúszó grafikus</p>
-          <h1 class="mt-3 font-display text-5xl font-extrabold leading-tight text-slate-900 sm:text-6xl">Arculatok, amelyekre emlékeznek.</h1>
-          <p class="mt-5 max-w-[46ch] text-lg text-slate-600">Kisvállalkozásoknak tervezek egyszerű, felismerhető megjelenést a logótól a plakátig.</p>
-          <a href="#munkak" class="mt-8 inline-block rounded-xl bg-violet-600 px-7 py-3 font-semibold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5">Munkáim megtekintése</a>
+          <p class="inline-flex items-center gap-2 rounded-full bg-violet-50 px-4 py-1.5 text-sm font-semibold text-violet-700"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Új projektekre nyitott vagyok</p>
+          <h1 class="mt-5 font-display text-5xl font-extrabold leading-tight text-slate-900 sm:text-6xl">Arculatok, amelyekre emlékeznek.</h1>
+          <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-slate-600">Szabadúszó grafikusként kisvállalkozásoknak tervezek egyszerű, felismerhető megjelenést a logótól a csomagolásig.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#munkak" class="rounded-xl bg-violet-600 px-7 py-3 font-semibold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:bg-violet-700">Munkáim megtekintése</a>
+            <a href="#kapcsolat" class="rounded-xl px-7 py-3 font-semibold text-violet-800 ring-1 ring-violet-200 transition hover:bg-violet-50">Ajánlatot kérek</a>
+          </div>
         </div>
-        <div class="h-72 overflow-hidden rounded-3xl shadow-xl md:h-96"><DemoArt name="folio" label="Színes, absztrakt formák kompozíciója" /></div>
+        <div class="h-72 overflow-hidden rounded-3xl shadow-xl ring-1 ring-violet-100 md:h-[26rem]"><DemoArt name="folio" label="Színes, absztrakt formák kompozíciója" /></div>
       </section>
 
-      <section id="munkak" class="mx-auto max-w-6xl scroll-mt-4 px-5 py-12" aria-labelledby="wh">
-        <h2 id="wh" class="font-display text-3xl font-extrabold text-slate-900">Válogatott munkák</h2>
-        <ul class="mt-8 grid gap-5 sm:grid-cols-3">
+      <section id="munkak" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-12" aria-labelledby="wh">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h2 id="wh" class="font-display text-3xl font-extrabold text-slate-900">Válogatott munkák</h2>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Munkák szűrése">
+            {cats.map((c, i) => <button type="button" data-f={c} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-slate-300 px-4 py-2 text-sm transition aria-pressed:border-violet-600 aria-pressed:bg-violet-600 aria-pressed:text-white">{c}</button>)}
+          </div>
+        </div>
+        <ul id="grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {works.map((w) => (
-            <li class="overflow-hidden rounded-2xl ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl">
-              <div class="h-52"><DemoArt name={w.a} label={w.t} /></div>
-              <div class="p-5"><h3 class="font-display text-lg font-bold">{w.t}</h3><p class="mt-1 text-sm text-slate-600">{w.d}</p></div>
+            <li data-c={w.c}>
+              <button type="button" data-open={w.id} class="group block w-full overflow-hidden rounded-2xl text-left ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl">
+                <div class="h-52 overflow-hidden"><div class="h-full transition duration-500 group-hover:scale-105"><DemoArt name={w.id} label={w.t} /></div></div>
+                <div class="p-5"><p class="text-sm font-semibold text-violet-600">{w.c}</p><h3 class="font-display text-lg font-bold">{w.t}</h3><p class="mt-1 text-sm text-slate-500">Részletek megtekintése</p></div>
+              </button>
             </li>
           ))}
         </ul>
       </section>
 
-      <section class="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-2" aria-label="Szolgáltatások és árak">
-        <div>
-          <h2 class="font-display text-3xl font-extrabold text-slate-900">Miben segítek?</h2>
-          <ul class="mt-6 space-y-3">
-            {services.map((s) => <li class="flex gap-3"><svg class="mt-1 shrink-0 text-violet-600" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>{s}</li>)}
-          </ul>
-        </div>
-        <div id="arak" class="scroll-mt-4">
-          <h2 class="font-display text-3xl font-extrabold text-slate-900">Árak</h2>
-          <dl class="mt-6 divide-y divide-slate-200 rounded-2xl ring-1 ring-slate-200">
-            {rates.map((r) => <div class="flex justify-between px-5 py-4"><dt>{r.n}</dt><dd class="font-semibold text-violet-700">{r.p}</dd></div>)}
-          </dl>
+      <section id="arak" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-16" aria-labelledby="ph">
+        <h2 id="ph" class="font-display text-3xl font-extrabold text-slate-900">Csomagok és árak</h2>
+        <p class="mt-2 text-slate-600">Az árak kiindulási összegek, a pontos ajánlatot az első beszélgetés után adom.</p>
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          {plans.map((p) => (
+            <article class:list={['relative flex flex-col rounded-3xl p-8 transition hover:-translate-y-1', p.hi ? 'bg-violet-600 text-white shadow-xl shadow-violet-600/30' : 'ring-1 ring-slate-200']}>
+              {p.hi && <span class="absolute -top-3 left-8 rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold text-slate-900">Ajánlott</span>}
+              <h3 class="font-display text-xl font-bold">{p.n}</h3>
+              <p class:list={['text-sm', p.hi ? 'text-violet-100' : 'text-slate-500']}>{p.d}</p>
+              <p class="mt-4 font-display text-3xl font-extrabold">{p.p}</p>
+              <ul class="mt-6 flex-1 space-y-2">{p.f.map((f) => <li class="flex gap-2"><span aria-hidden="true">✓</span>{f}</li>)}</ul>
+              <button type="button" data-plan={p.n} class:list={['mt-8 rounded-xl py-3 font-semibold transition hover:-translate-y-0.5', p.hi ? 'bg-white text-violet-700' : 'bg-violet-600 text-white hover:bg-violet-700']}>Ezt kérem</button>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section class="mx-auto max-w-4xl px-5 py-12 text-center">
-        <div class="rounded-3xl bg-violet-600 p-10 text-white">
-          <h2 class="font-display text-3xl font-extrabold">Dolgozzunk együtt!</h2>
-          <p class="mt-2 text-violet-100">Írd meg röviden, mire van szükséged, és 2 munkanapon belül válaszolok.</p>
-          <a href="mailto:minta@pelda.hu" class="mt-6 inline-block rounded-xl bg-white px-7 py-3 font-semibold text-violet-700 transition hover:-translate-y-0.5">minta@pelda.hu</a>
+      <section id="folyamat" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-12" aria-labelledby="fh">
+        <h2 id="fh" class="font-display text-3xl font-extrabold text-slate-900">Így dolgozunk együtt</h2>
+        <ol class="mt-8 grid gap-5 md:grid-cols-4">
+          {steps.map((s, i) => <li class="rounded-2xl bg-violet-50 p-6"><span class="font-display text-4xl font-extrabold text-violet-300">{i + 1}</span><h3 class="mt-2 text-lg font-bold">{s.t}</h3><p class="mt-1 text-slate-600">{s.d}</p></li>)}
+        </ol>
+      </section>
+
+      <section id="rolam" class="mx-auto grid max-w-6xl scroll-mt-20 items-center gap-10 px-5 py-16 md:grid-cols-2" aria-labelledby="rh">
+        <div class="h-64 overflow-hidden rounded-3xl md:h-80"><DemoArt name="social" label="Színes kártyák kompozíciója" /></div>
+        <div>
+          <h2 id="rh" class="font-display text-3xl font-extrabold text-slate-900">Rólam</h2>
+          <p class="mt-4 max-w-[52ch] leading-relaxed text-slate-600">Szabadúszó grafikus vagyok, és a legjobban azt szeretem, amikor egy kisvállalkozás első ránézésre megkülönböztethetővé válik. Egyszerű formákkal és tiszta gondolkodással dolgozom, és minden lépést érthetően elmagyarázok.</p>
+          <ul class="mt-5 flex flex-wrap gap-2">{['Logó', 'Arculat', 'Csomagolás', 'UI-tervezés'].map((t) => <li class="rounded-full bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700">{t}</li>)}</ul>
         </div>
       </section>
+
+      <section class="mx-auto max-w-3xl px-5 py-12" aria-labelledby="gh">
+        <h2 id="gh" class="font-display text-3xl font-extrabold text-slate-900">Gyakori kérdések</h2>
+        <div class="mt-6 space-y-3">{faq.map((f) => <details class="rounded-2xl p-5 ring-1 ring-slate-200"><summary class="cursor-pointer font-semibold marker:text-violet-600">{f.q}</summary><p class="mt-3 leading-relaxed text-slate-600">{f.a}</p></details>)}</div>
+      </section>
+
+      <section id="kapcsolat" class="mx-auto max-w-2xl scroll-mt-20 px-5 py-12" aria-labelledby="kh">
+        <form id="f" class="space-y-4 rounded-3xl p-8 shadow-lg ring-1 ring-violet-100">
+          <h2 id="kh" class="font-display text-3xl font-extrabold text-slate-900">Dolgozzunk együtt!</h2>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div><label for="n" class="font-semibold">Név</label><input id="n" required autocomplete="name" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></div>
+            <div><label for="e" class="font-semibold">E-mail-cím</label><input id="e" type="email" required autocomplete="email" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></div>
+          </div>
+          <div><label for="t" class="font-semibold">Mire van szükséged?</label>
+            <select id="t" required class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3"><option value="">Válassz</option><option>Logó</option><option>Arculat</option><option>Teljes megjelenés</option><option>Egyéb</option></select></div>
+          <div><label for="m" class="font-semibold">Írd le röviden a projektet</label><textarea id="m" required minlength="10" rows="4" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3"></textarea></div>
+          <button class="w-full rounded-xl bg-violet-600 py-3.5 font-semibold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:bg-violet-700">Üzenet küldése</button>
+          <p id="ok" class="hidden rounded-xl bg-emerald-50 px-4 py-3 text-emerald-800" role="status">Köszönöm az üzeneted! Két munkanapon belül válaszolok. (Ez demó, ezért az adatok nem kerülnek elküldésre.)</p>
+        </form>
+      </section>
     </main>
-    <DemoFooter brand="Minta Dóri" />
+
+    <footer class="mt-8 border-t border-slate-200 px-5 py-8 text-center text-sm text-slate-500">
+      © {new Date().getFullYear()} Minta Dóri. Kitalált minta szabadúszó, a weboldalt a Lumen műhely készítette demóként.
+    </footer>
+
+    <dialog id="cs" aria-labelledby="cs-t" class="m-auto w-[min(94vw,46rem)] rounded-3xl bg-white p-0 text-slate-800 backdrop:bg-black/50">
+      <div id="cs-art" class="h-56 overflow-hidden"></div>
+      <div class="p-7">
+        <p id="cs-c" class="text-sm font-semibold text-violet-600"></p>
+        <h2 id="cs-t" class="font-display text-3xl font-extrabold"></h2>
+        <h3 class="mt-5 font-bold">A feladat</h3><p id="cs-b" class="mt-1 leading-relaxed text-slate-600"></p>
+        <h3 class="mt-4 font-bold">A megoldás</h3><p id="cs-s" class="mt-1 leading-relaxed text-slate-600"></p>
+        <h3 class="mt-4 font-bold">Amit átadtam</h3><ul id="cs-o" class="mt-1 list-inside list-disc text-slate-600"></ul>
+        <div class="mt-7 flex gap-3">
+          <a id="cs-cta" href="#kapcsolat" class="rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white transition hover:bg-violet-700">Hasonlót szeretnék</a>
+          <button type="button" id="cs-x" class="rounded-xl px-5 py-3 ring-1 ring-slate-300">Bezár</button>
+        </div>
+      </div>
+    </dialog>
   </div>
+
+  <script define:vars={{ works }}>
+    const $ = (id) => document.getElementById(id);
+    const dlg = $('cs');
+    const mb = $('mb'), mm = $('mm');
+    mb.addEventListener('click', () => { const h = mm.classList.toggle('hidden'); mb.setAttribute('aria-expanded', String(!h)); });
+    mm.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { mm.classList.add('hidden'); mb.setAttribute('aria-expanded', 'false'); }));
+
+    const fs = document.querySelectorAll('[data-f]');
+    fs.forEach((b) => b.addEventListener('click', () => {
+      fs.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      document.querySelectorAll('#grid > li').forEach((li) => li.classList.toggle('hidden', b.dataset.f !== 'Mind' && li.dataset.c !== b.dataset.f));
+    }));
+
+    document.querySelectorAll('[data-open]').forEach((btn) => btn.addEventListener('click', () => {
+      const w = works.find((x) => x.id === btn.dataset.open);
+      $('cs-art').replaceChildren(btn.querySelector('svg').cloneNode(true));
+      $('cs-c').textContent = w.c; $('cs-t').textContent = w.t; $('cs-b').textContent = w.brief; $('cs-s').textContent = w.sol;
+      const l = $('cs-o'); l.replaceChildren();
+      w.out.forEach((o) => { const li = document.createElement('li'); li.textContent = o; l.append(li); });
+      dlg.showModal();
+    }));
+    $('cs-x').addEventListener('click', () => dlg.close());
+    $('cs-cta').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+
+    document.querySelectorAll('[data-plan]').forEach((b) => b.addEventListener('click', () => {
+      $('t').value = b.dataset.plan;
+      $('kapcsolat').scrollIntoView({ behavior: 'smooth' });
+      $('n').focus({ preventScroll: true });
+    }));
+    $('f').addEventListener('submit', (e) => { e.preventDefault(); $('ok').classList.remove('hidden'); });
+  </script>
 </DemoLayout>

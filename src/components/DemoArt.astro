@@ -4,7 +4,7 @@ const { name, label = '' } = Astro.props;
 const bg: Record<string, [string, string]> = {
   klima: ['#e0f2fe', '#7dd3fc'], mug: ['#ffe4e6', '#fda4af'], candle: ['#fef3c7', '#fdba74'], tote: ['#f5f5f4', '#d6d3d1'],
   notebook: ['#ffedd5', '#fdba74'], organizer: ['#fef9c3', '#fde047'], pencase: ['#ccfbf1', '#5eead4'], brand: ['#ede9fe', '#c4b5fd'],
-  app: ['#e0f2fe', '#c4b5fd'], poster: ['#fae8ff', '#f0abfc'], folio: ['#f5f3ff', '#e9d5ff'], soup: ['#fef3c7', '#fcd34d'],
+  app: ['#e0f2fe', '#c4b5fd'], poster: ['#fae8ff', '#f0abfc'], folio: ['#f5f3ff', '#e9d5ff'], pack: ['#ede9fe', '#a78bfa'], social: ['#fae8ff', '#c4b5fd'], soup: ['#fef3c7', '#fcd34d'],
 };
 const [c1, c2] = bg[name] ?? ['#eee', '#ccc'];
 const id = `g-${name}`;
@@ -62,5 +62,12 @@ const id = `g-${name}`;
     <path d="M160 130c-12-20 12-30 0-52M205 130c-12-20 12-30 0-52M250 130c-12-20 12-30 0-52" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85" />
     <path d="M90 160h220a110 90 0 01-220 0z" fill="#b91c1c" /><rect x="80" y="150" width="240" height="16" rx="8" fill="#fff" /><path d="M110 160h180a90 40 0 01-180 0z" fill="#f59e0b" />
     <circle cx="170" cy="164" r="7" fill="#dc2626" /><circle cx="215" cy="170" r="6" fill="#65a30d" /><circle cx="250" cy="163" r="7" fill="#dc2626" />
+  </g>)}
+  {name === 'pack' && (<g>
+    <path d="M110 110l90-40 90 40v110l-90 40-90-40z" fill="#fff" /><path d="M110 110l90 40 90-40M200 150v110" stroke="#c4b5fd" stroke-width="5" fill="none" /><circle cx="245" cy="190" r="18" fill="#7c3aed" />
+  </g>)}
+  {name === 'social' && (<g>
+    <rect x="80" y="55" width="110" height="110" rx="16" fill="#fff" /><rect x="210" y="55" width="110" height="110" rx="16" fill="#8b5cf6" /><rect x="80" y="185" width="110" height="60" rx="16" fill="#f0abfc" /><rect x="210" y="185" width="110" height="60" rx="16" fill="#fff" />
+    <circle cx="135" cy="110" r="26" fill="#fb7185" /><path d="M235 140l30-40 30 40z" fill="#fff" />
   </g>)}
 </svg>
