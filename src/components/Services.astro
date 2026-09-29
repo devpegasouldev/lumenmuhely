@@ -1,0 +1,19 @@
+---
+import ServiceCard from './ServiceCard.astro';
+
+const services = [
+  { title: 'Weboldal-tervezés', text: 'Egyedi arculatú, mobilra optimalizált oldalak, amelyek első látásra megmutatják, mit kínálsz.', icon: 'M3 5h18v14H3zM3 9h18M7 7h.01' },
+  { title: 'Fejlesztés', text: 'Gyors, biztonságos és könnyen bővíthető kód, amelyet később is bárki tovább tud vinni.', icon: 'M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14' },
+  { title: 'SEO és tartalom', text: 'Keresőbarát szerkezet és érthető szövegek, hogy a megfelelő emberek megtaláljanak.', icon: 'M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-5-5' },
+  { title: 'Mérés és optimalizálás', text: 'Látod, honnan jönnek az érdeklődők, és mi működik a legjobban. Igény szerint finomhangolunk.', icon: 'M4 19V9M10 19V5M16 19v-7M22 19H2' },
+];
+---
+<section class="mx-auto max-w-6xl px-5 py-20" aria-labelledby="services-title">
+  <div class="max-w-2xl">
+    <h2 id="services-title" class="font-display text-4xl font-extrabold tracking-tight">Minden, ami egy működő weboldalhoz kell</h2>
+    <p class="mt-4 text-lg text-mist">Egy csapat viszi végig a projektet, így nincs átadás-átvétel, és nem vész el az információ.</p>
+  </div>
+  <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {services.map((s) => <ServiceCard {...s} />)}
+  </div>
+</section>

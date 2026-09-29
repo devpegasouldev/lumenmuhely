@@ -1,0 +1,7 @@
+---
+interface Props { brand: string; }
+const { brand } = Astro.props;
+---
+<footer class="mt-20 border-t border-black/10 px-5 py-8 text-center text-sm opacity-70">
+  © {new Date().getFullYear()} {brand}. Kitalált minta, a weboldalt a Lumen műhely készítette demóként.
+</footer>

@@ -1,0 +1,25 @@
+---
+const items = [
+  { title: 'Ultra-gyors weboldalak', text: 'Astro és Tailwind CSS technológiával építünk, így az oldalad minimális kóddal, azonnal betölt.', icon: 'M13 2L4 14h7l-1 8 9-12h-7z', featured: false },
+  { title: '100% mobilbarát', text: 'Mobil-első szemlélettel tervezünk, mert a látogatóid többsége telefonról érkezik.', icon: 'M7 2h10v20H7zM11 18h2', featured: false },
+  { title: 'Közvetlen kommunikáció', text: 'Két fejlesztővel beszélsz, közvetlenül, és gyorsan válaszolunk. Nincs ügyfélszolgálati labirintus.', icon: 'M4 5h16v11H9l-5 4z', featured: false },
+  { title: 'Elégedettségi garancia', text: 'Először elkészítjük a mintatervet. Csak akkor fizetsz, ha elégedett vagy vele. A pontos feltételeket az ajánlatban rögzítjük.', icon: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4', featured: true },
+];
+---
+<section class="mx-auto max-w-6xl px-5 py-20" aria-labelledby="why-title">
+  <div class="max-w-2xl">
+    <h2 id="why-title" class="font-display text-4xl font-extrabold tracking-tight">Miért érdemes velünk dolgozni?</h2>
+    <p class="mt-4 text-lg text-mist">Új csapat vagyunk, ezért a bizalmadat nem referenciákkal, hanem konkrét vállalásokkal szeretnénk elnyerni.</p>
+  </div>
+  <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {items.map((it) => (
+      <article class:list={['group rounded-2xl p-7 transition duration-300 hover:-translate-y-1', it.featured ? 'border border-iris bg-gradient-to-b from-iris/25 to-panel shadow-xl shadow-iris/20' : 'glass hover:border-iris/50']}>
+        <div class="grid h-12 w-12 place-items-center rounded-xl bg-iris/15 text-iris">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={it.icon} /></svg>
+        </div>
+        <h3 class="mt-5 font-display text-xl font-bold">{it.title}</h3>
+        <p class="mt-2 leading-relaxed text-mist">{it.text}</p>
+      </article>
+    ))}
+  </div>
+</section>

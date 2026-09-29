@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Az oldal nem található | Lumen műhely" description="A keresett oldal nem létezik vagy elköltözött." noindex>
+  <section class="mx-auto grid min-h-[70vh] max-w-6xl place-items-center px-5 py-20" aria-labelledby="notfound-title">
+    <div class="glass relative w-full max-w-xl overflow-hidden rounded-3xl p-10 text-center shadow-2xl shadow-black/30 sm:p-14">
+      <div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-iris/30 blur-3xl" aria-hidden="true"></div>
+      <p class="relative font-display text-8xl font-extrabold tracking-tight text-iris" aria-hidden="true">404</p>
+      <h1 id="notfound-title" class="relative mt-4 font-display text-3xl font-extrabold tracking-tight">Ez az oldal nem található</h1>
+      <p class="relative mx-auto mt-4 max-w-[42ch] leading-relaxed text-mist">
+        Lehet, hogy elgépelted a címet, vagy az oldal időközben elköltözött. Térj vissza a főoldalra, onnan könnyen továbbtalálsz.
+      </p>
+      <div class="relative mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/" class="rounded-xl bg-iris px-6 py-3 font-semibold text-white shadow-lg shadow-iris/30 transition hover:-translate-y-0.5 hover:brightness-110">Vissza a főoldalra</a>
+        <a href="/kapcsolat" class="glass rounded-xl px-6 py-3 font-semibold transition hover:bg-white/10">Írj nekünk</a>
+      </div>
+    </div>
+  </section>
+</Layout>

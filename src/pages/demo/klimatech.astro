@@ -1,0 +1,201 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import DemoArt from '../../components/DemoArt.astro';
+
+const nav = [
+  { href: '#meretezo', label: 'Klíma-méretező' },
+  { href: '#szolg', label: 'Szolgáltatások' },
+  { href: '#folyamat', label: 'Folyamat' },
+  { href: '#gyik', label: 'GYIK' },
+];
+const trust = ['Ingyenes helyszíni felmérés', 'Fix árajánlat', 'Garancia a munkára'];
+const services = [
+  { t: 'Telepítés', d: 'Felmérés, szerelés és beüzemelés. Egy átlagos lakásban általában egy munkanap alatt végzünk.', i: 'M3 12l9-9 9 9M5 10v10h14V10' },
+  { t: 'Karbantartás', d: 'Éves tisztítás és ellenőrzés, hogy a klímád nyáron is hatékonyan és higiénikusan működjön.', i: 'M12 3v18M3 12h18M6 6l12 12M18 6L6 18' },
+  { t: 'Hibajavítás', d: 'Gyors kiszállás, hibafeltárás és átlátható árajánlat még a javítás megkezdése előtt.', i: 'M14 6l4 4-9 9H5v-4z' },
+];
+const steps = [
+  { t: 'Felmérés', d: 'Megnézzük a helyszínt, és megbeszéljük az igényeidet.', time: '20–30 perc' },
+  { t: 'Fix árajánlat', d: 'Leírjuk, mi mennyibe kerül, rejtett költségek nélkül.', time: '1 munkanap' },
+  { t: 'Telepítés', d: 'Szerelés, tesztelés, a helyszín rendberakása.', time: 'általában 1 nap' },
+  { t: 'Átadás és garancia', d: 'Megmutatjuk a használatot, és átadjuk a garanciajegyet.', time: 'átadáskor' },
+];
+const perks = [
+  { t: 'Átlátható árak', d: 'Az árajánlat mindent tartalmaz, utólag nem kérünk pluszt.' },
+  { t: 'Tiszta munka', d: 'Takarítunk magunk után, a lakásod úgy marad, ahogy találtuk.' },
+  { t: 'Érthető magyarázat', d: 'Nem szakzsargonban beszélünk, hanem elmondjuk, mit miért javasolunk.' },
+  { t: 'Utánkövetés', d: 'Telepítés után is számíthatsz ránk, ha kérdésed lenne.' },
+];
+const faq = [
+  { q: 'Mennyi ideig tart a telepítés?', a: 'Egy átlagos lakásban, egy beltéri egységnél általában egy munkanap. Bonyolultabb helyszínnél a felmérés után pontos időt mondunk.' },
+  { q: 'Kell engedély a klíma felszereléséhez?', a: 'Társasházban a kültéri egység elhelyezéséhez érdemes egyeztetni a közös képviselővel. Az ehhez szükséges tájékoztatót összeállítjuk.' },
+  { q: 'Milyen gyakran kell karbantartani?', a: 'Évente egyszer, a nyári szezon előtt javasoljuk. Így tovább bírja, kevesebbet fogyaszt, és tisztább levegőt ad.' },
+  { q: 'Hogyan kapok pontos árat?', a: 'A méretező tájékoztató értéket ad. A végleges árat az ingyenes helyszíni felmérés után, írásos ajánlatban rögzítjük.' },
+];
+---
+<DemoLayout title="KlímaTech | Klímaszerelés és karbantartás (Landing Page Demó)">
+  <div id="top" class="min-h-screen bg-sky-50 pb-20 font-sans text-slate-800 md:pb-0">
+    <header class="sticky top-0 z-40 border-b border-sky-100 bg-sky-50/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+        <a href="#top" class="font-display text-2xl font-extrabold text-sky-700">KlímaTech</a>
+        <nav aria-label="Fő navigáció" class="hidden gap-7 md:flex">
+          {nav.map((l) => <a href={l.href} class="text-sm text-slate-600 transition hover:text-sky-700">{l.label}</a>)}
+        </nav>
+        <div class="flex items-center gap-3">
+          <a href="tel:+3612345678" class="hidden font-semibold text-sky-800 lg:block">+36 1 234 5678</a>
+          <a href="#ajanlat" class="hidden rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-sky-700 md:block">Ajánlatot kérek</a>
+          <button id="mb" type="button" aria-expanded="false" aria-controls="mm" aria-label="Menü megnyitása" class="rounded-lg bg-white p-2 ring-1 ring-sky-200 md:hidden">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          </button>
+        </div>
+      </div>
+      <nav id="mm" aria-label="Mobil navigáció" class="hidden border-t border-sky-100 px-5 pb-4 md:hidden">
+        {nav.map((l) => <a href={l.href} class="block py-3 text-slate-700">{l.label}</a>)}
+      </nav>
+    </header>
+
+    <main>
+      <section class="mx-auto grid max-w-6xl items-center gap-10 px-5 py-12 md:grid-cols-2 md:py-20">
+        <div>
+          <h1 class="font-display text-5xl font-extrabold leading-tight text-slate-900 sm:text-6xl">Hűvös otthon, gyors telepítéssel.</h1>
+          <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-slate-600">Klímaszerelés és karbantartás egy helyen. Számold ki a méretezőnkkel, mekkora klíma kell neked, majd kérj ingyenes felmérést. Két munkanapon belül visszahívunk.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#meretezo" class="rounded-xl bg-sky-600 px-7 py-3 font-semibold text-white shadow-lg shadow-sky-600/30 transition hover:-translate-y-0.5 hover:bg-sky-700">Klíma-méretező</a>
+            <a href="#ajanlat" class="rounded-xl bg-white px-7 py-3 font-semibold text-sky-800 ring-1 ring-sky-200 transition hover:bg-sky-100">Ajánlatot kérek</a>
+          </div>
+          <ul class="mt-8 flex flex-wrap gap-2">
+            {trust.map((t) => <li class="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm ring-1 ring-sky-100"><svg class="text-sky-600" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>{t}</li>)}
+          </ul>
+        </div>
+        <div class="relative">
+          <div class="h-72 overflow-hidden rounded-3xl shadow-xl ring-1 ring-sky-200 md:h-[26rem]"><DemoArt name="klima" label="Klímaberendezés egy hűvös nappaliban" /></div>
+          <div class="absolute -bottom-5 left-4 rounded-2xl bg-white px-5 py-3 shadow-lg ring-1 ring-sky-100"><p class="text-xs text-slate-500">Telepítés</p><p class="font-display text-xl font-extrabold text-sky-700">általában 1 nap</p></div>
+        </div>
+      </section>
+
+      <section id="meretezo" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-12" aria-labelledby="mh">
+        <div class="grid gap-8 rounded-3xl bg-white p-8 shadow-lg ring-1 ring-sky-100 md:grid-cols-2 md:p-12">
+          <div>
+            <h2 id="mh" class="font-display text-3xl font-extrabold text-slate-900">Mekkora klíma kell neked?</h2>
+            <p class="mt-3 text-slate-600">Add meg a helyiség adatait, és azonnal látod a javasolt teljesítményt és a becsült árat.</p>
+            <label for="area" class="mt-8 block font-semibold">Helyiség mérete: <output id="areaOut" class="text-sky-700">25</output> m²</label>
+            <input id="area" type="range" min="10" max="80" value="25" class="mt-3 w-full accent-sky-600" />
+            <label class="mt-6 flex items-center gap-3"><input id="sun" type="checkbox" class="h-5 w-5 accent-sky-600" /> Napos, délre néző helyiség</label>
+            <label class="mt-3 flex items-center gap-3"><input id="roof" type="checkbox" class="h-5 w-5 accent-sky-600" /> Legfelső emelet vagy tetőtér</label>
+          </div>
+          <div class="flex flex-col rounded-2xl bg-sky-600 p-8 text-white" aria-live="polite">
+            <p class="text-sky-100">Javasolt teljesítmény</p>
+            <p id="kw" class="font-display text-6xl font-extrabold">3,5 kW</p>
+            <p class="mt-5 text-sky-100">Becsült ár telepítéssel együtt</p>
+            <p id="price" class="font-display text-3xl font-extrabold">229 000 – 289 000 Ft</p>
+            <p class="mt-auto pt-6 text-sm text-sky-100">Tájékoztató érték. A pontos árat az ingyenes helyszíni felmérés után, írásos ajánlatban adjuk meg.</p>
+            <a href="#ajanlat" class="mt-4 rounded-xl bg-white px-6 py-3 text-center font-semibold text-sky-800 transition hover:-translate-y-0.5">Ajánlatot kérek erre</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="szolg" class="mx-auto grid max-w-6xl scroll-mt-20 gap-5 px-5 py-12 md:grid-cols-3" aria-label="Szolgáltatások">
+        {services.map((s) => (
+          <article class="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-sky-100 transition hover:-translate-y-1 hover:shadow-md">
+            <div class="grid h-12 w-12 place-items-center rounded-xl bg-sky-100 text-sky-700"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.i} /></svg></div>
+            <h2 class="mt-4 font-display text-xl font-bold text-sky-900">{s.t}</h2>
+            <p class="mt-2 leading-relaxed text-slate-600">{s.d}</p>
+          </article>
+        ))}
+      </section>
+
+      <section id="folyamat" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-16" aria-labelledby="fh">
+        <h2 id="fh" class="font-display text-3xl font-extrabold text-slate-900">Így zajlik a munka</h2>
+        <ol class="mt-8 grid gap-5 md:grid-cols-4">
+          {steps.map((s, i) => (
+            <li class="rounded-2xl bg-sky-600 p-6 text-white transition hover:-translate-y-1">
+              <span class="font-display text-4xl font-extrabold opacity-60">{i + 1}</span>
+              <h3 class="mt-2 text-xl font-bold">{s.t}</h3>
+              <p class="mt-1 text-sky-50">{s.d}</p>
+              <p class="mt-3 inline-block rounded-full bg-white/20 px-3 py-1 text-xs">{s.time}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-5 py-12" aria-labelledby="ph">
+        <h2 id="ph" class="font-display text-3xl font-extrabold text-slate-900">Miért a KlímaTech?</h2>
+        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {perks.map((p) => <div class="rounded-2xl bg-white p-6 ring-1 ring-sky-100"><h3 class="font-display text-lg font-bold text-sky-800">{p.t}</h3><p class="mt-2 text-slate-600">{p.d}</p></div>)}
+        </div>
+      </section>
+
+      <section id="gyik" class="mx-auto max-w-3xl scroll-mt-20 px-5 py-12" aria-labelledby="gh">
+        <h2 id="gh" class="font-display text-3xl font-extrabold text-slate-900">Gyakori kérdések</h2>
+        <div class="mt-6 space-y-3">
+          {faq.map((f) => <details class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-sky-100"><summary class="cursor-pointer font-semibold marker:text-sky-600">{f.q}</summary><p class="mt-3 leading-relaxed text-slate-600">{f.a}</p></details>)}
+        </div>
+      </section>
+
+      <section id="ajanlat" class="mx-auto max-w-2xl scroll-mt-20 px-5 py-12" aria-labelledby="ah">
+        <form id="f" class="space-y-4 rounded-3xl bg-white p-8 shadow-lg ring-1 ring-sky-100">
+          <h2 id="ah" class="font-display text-3xl font-extrabold text-slate-900">Kérj ingyenes felmérést</h2>
+          <p id="sum" class="rounded-xl bg-sky-50 px-4 py-3 text-sm text-sky-900"></p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div><label for="n" class="font-semibold">Név</label><input id="n" required autocomplete="name" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></div>
+            <div><label for="p" class="font-semibold">Telefonszám</label><input id="p" required type="tel" autocomplete="tel" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3" /></div>
+          </div>
+          <div><label for="s" class="font-semibold">Mire van szükséged?</label>
+            <select id="s" required class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3"><option value="">Válassz</option><option selected>Új klíma telepítése</option><option>Karbantartás</option><option>Hibajavítás</option></select></div>
+          <div><label for="m" class="font-semibold">Megjegyzés (nem kötelező)</label><textarea id="m" rows="3" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3"></textarea></div>
+          <button class="w-full rounded-xl bg-sky-600 py-3.5 font-semibold text-white shadow-lg shadow-sky-600/30 transition hover:-translate-y-0.5 hover:bg-sky-700">Visszahívást kérek</button>
+          <p id="ok" class="hidden rounded-xl bg-emerald-50 px-4 py-3 text-emerald-800" role="status">Köszönjük! Két munkanapon belül visszahívunk. (Ez demó, ezért az adatok nem kerülnek elküldésre.)</p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="mt-8 border-t border-sky-100 bg-white px-5 py-10">
+      <div class="mx-auto grid max-w-6xl gap-6 text-sm md:grid-cols-3">
+        <div><p class="font-display text-xl font-extrabold text-sky-700">KlímaTech</p><p class="mt-2 text-slate-600">Klímaszerelés és karbantartás a fővárosban és környékén.</p></div>
+        <div><p class="font-semibold">Elérhetőség</p><p class="mt-2 text-slate-600">+36 1 234 5678<br />info@klimatech.example<br />H–P 8:00–17:00</p></div>
+        <p class="text-slate-500 md:text-right">Kitalált minta cég. A weboldalt a Lumen műhely készítette demóként.</p>
+      </div>
+    </footer>
+
+    <div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-3 border-t border-sky-100 bg-white/95 p-3 backdrop-blur md:hidden">
+      <a href="tel:+3612345678" class="rounded-xl bg-white py-3 text-center font-semibold text-sky-800 ring-1 ring-sky-200">Hívás</a>
+      <a href="#ajanlat" class="rounded-xl bg-sky-600 py-3 text-center font-semibold text-white">Ajánlatot kérek</a>
+    </div>
+  </div>
+
+  <script>
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const sizes = [
+      { kw: 2.6, min: 189000, max: 229000 }, { kw: 3.5, min: 229000, max: 289000 },
+      { kw: 5, min: 339000, max: 419000 }, { kw: 7, min: 449000, max: 549000 },
+    ];
+    const fmt = (n: number) => n.toLocaleString('hu-HU');
+    function calc() {
+      const area = Number($<HTMLInputElement>('area').value);
+      let need = area * 0.1;
+      if ($<HTMLInputElement>('sun').checked) need *= 1.2;
+      if ($<HTMLInputElement>('roof').checked) need *= 1.15;
+      $('areaOut').textContent = String(area);
+      const pick = sizes.find((s) => s.kw >= need);
+      let text: string;
+      if (pick) {
+        $('kw').textContent = `${String(pick.kw).replace('.', ',')} kW`;
+        $('price').textContent = `${fmt(pick.min)} – ${fmt(pick.max)} Ft`;
+        text = `Kalkulátor alapján: ${area} m², javasolt teljesítmény ${String(pick.kw).replace('.', ',')} kW.`;
+      } else {
+        $('kw').textContent = '7 kW felett';
+        $('price').textContent = 'Egyedi ajánlat';
+        text = `Kalkulátor alapján: ${area} m², nagyobb vagy több egységes megoldás javasolt.`;
+      }
+      $('sum').textContent = text;
+    }
+    ['area', 'sun', 'roof'].forEach((id) => $(id).addEventListener('input', calc));
+    calc();
+
+    const mb = $('mb'), mm = $('mm');
+    mb.addEventListener('click', () => { const h = mm.classList.toggle('hidden'); mb.setAttribute('aria-expanded', String(!h)); });
+    mm.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { mm.classList.add('hidden'); mb.setAttribute('aria-expanded', 'false'); }));
+
+    $<HTMLFormElement>('f').addEventListener('submit', (e) => { e.preventDefault(); $('ok').classList.remove('hidden'); });
+  </script>
+</DemoLayout>

@@ -1,0 +1,42 @@
+---
+const tabs = [
+  { id: 'design', label: 'Tervezés', title: 'Tervezés, amely a célközönségből indul ki', text: 'Közösen tisztázzuk, kiket szeretnél elérni, majd drótvázakon és kattintható tervekben mutatjuk meg, hogyan vezetjük végig őket az oldalon.', items: ['Célcsoport- és versenytárselemzés', 'Drótváz és interaktív prototípus', 'Arculat és komponensrendszer'] },
+  { id: 'dev', label: 'Fejlesztés', title: 'Gyors, biztonságos, továbbvihető kód', text: 'Modern eszközökkel építünk, így az oldalad villámgyorsan betölt, és később is egyszerűen bővíthető marad.', items: ['Reszponzív, akadálymentes kivitelezés', 'Tartalomszerkesztő felület', 'Webshop- és rendszerintegrációk'] },
+  { id: 'growth', label: 'SEO és mérés', title: 'Látható, mérhető eredmények', text: 'Az élesítés után sem tűnünk el: figyeljük a látogatók útját, és javaslatot teszünk a fejlesztésekre.', items: ['Technikai SEO és tartalomterv', 'Konverziómérés beállítása', 'Riport és javaslatok'] },
+];
+---
+<section class="mx-auto max-w-6xl px-5 py-12" aria-labelledby="tabs-title">
+  <h2 id="tabs-title" class="sr-only">Szolgáltatásaink részletesen</h2>
+  <div role="tablist" aria-label="Szolgáltatások" class="glass inline-flex flex-wrap gap-1 rounded-2xl p-1.5">
+    {tabs.map((t, i) => (
+      <button role="tab" type="button" id={`tab-${t.id}`} data-tab={t.id} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`panel-${t.id}`}
+        class="rounded-xl px-5 py-2.5 text-sm font-semibold text-mist transition hover:text-snow aria-selected:bg-iris aria-selected:text-white">{t.label}</button>
+    ))}
+  </div>
+  {tabs.map((t, i) => (
+    <div role="tabpanel" id={`panel-${t.id}`} aria-labelledby={`tab-${t.id}`} class:list={['glass mt-6 grid gap-8 rounded-3xl p-8 md:grid-cols-2 md:p-12', i !== 0 && 'hidden']}>
+      <div>
+        <h3 class="font-display text-3xl font-extrabold tracking-tight">{t.title}</h3>
+        <p class="mt-4 leading-relaxed text-mist">{t.text}</p>
+      </div>
+      <ul class="space-y-3 self-center">
+        {t.items.map((it) => (
+          <li class="flex gap-3 rounded-xl bg-white/5 px-4 py-3">
+            <svg class="mt-1 shrink-0 text-iris" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>{it}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</section>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+  const panels = document.querySelectorAll<HTMLElement>('[role="tabpanel"]');
+  tabs.forEach((t) =>
+    t.addEventListener('click', () => {
+      tabs.forEach((x) => x.setAttribute('aria-selected', String(x === t)));
+      panels.forEach((p) => p.classList.toggle('hidden', p.id !== `panel-${t.dataset.tab}`));
+    })
+  );
+</script>

@@ -1,0 +1,11 @@
+---
+interface Props { brand: string; links: { href: string; label: string }[]; cta: string; ctaHref: string; brandClass: string; btnClass: string; }
+const { brand, links, cta, ctaHref, brandClass, btnClass } = Astro.props;
+---
+<header class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5">
+  <a href="#top" class:list={['font-display text-2xl font-extrabold', brandClass]}>{brand}</a>
+  <nav aria-label="Demó navigáció" class="hidden gap-7 md:flex">
+    {links.map((l) => <a href={l.href} class="text-sm opacity-70 transition hover:opacity-100">{l.label}</a>)}
+  </nav>
+  <a href={ctaHref} class:list={['rounded-lg px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5', btnClass]}>{cta}</a>
+</header>

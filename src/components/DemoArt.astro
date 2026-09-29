@@ -1,0 +1,66 @@
+---
+interface Props { name: string; label?: string }
+const { name, label = '' } = Astro.props;
+const bg: Record<string, [string, string]> = {
+  klima: ['#e0f2fe', '#7dd3fc'], mug: ['#ffe4e6', '#fda4af'], candle: ['#fef3c7', '#fdba74'], tote: ['#f5f5f4', '#d6d3d1'],
+  notebook: ['#ffedd5', '#fdba74'], organizer: ['#fef9c3', '#fde047'], pencase: ['#ccfbf1', '#5eead4'], brand: ['#ede9fe', '#c4b5fd'],
+  app: ['#e0f2fe', '#c4b5fd'], poster: ['#fae8ff', '#f0abfc'], folio: ['#f5f3ff', '#e9d5ff'], soup: ['#fef3c7', '#fcd34d'],
+};
+const [c1, c2] = bg[name] ?? ['#eee', '#ccc'];
+const id = `g-${name}`;
+---
+<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" class="h-full w-full" role="img" aria-label={label}>
+  <defs><linearGradient id={id} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color={c1} /><stop offset="1" stop-color={c2} /></linearGradient></defs>
+  <rect width="400" height="300" fill={`url(#${id})`} />
+  {name === 'klima' && (<g>
+    <circle cx="330" cy="70" r="34" fill="#fde68a" /><rect y="215" width="400" height="85" fill="#bae6fd" />
+    <rect x="70" y="60" width="240" height="80" rx="18" fill="#fff" /><path d="M95 112h190M95 124h190" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" /><circle cx="285" cy="82" r="5" fill="#38bdf8" />
+    <path d="M110 160c20 20 40 0 60 20M190 165c20 20 40 0 60 20M260 160c20 20 40 0 60 20" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7" />
+    <rect x="90" y="205" width="200" height="60" rx="16" fill="#0ea5e9" /><rect x="76" y="220" width="34" height="50" rx="12" fill="#0284c7" /><rect x="270" y="220" width="34" height="50" rx="12" fill="#0284c7" />
+    <rect x="322" y="225" width="30" height="40" rx="6" fill="#a16207" /><path d="M337 225c-22-30 0-52 0-52s22 22 0 52z" fill="#22c55e" />
+  </g>)}
+  {name === 'mug' && (<g>
+    <ellipse cx="200" cy="232" rx="80" ry="10" fill="#000" opacity=".1" /><rect x="130" y="110" width="110" height="120" rx="22" fill="#fff" /><path d="M240 135h20a26 26 0 010 52h-20" fill="none" stroke="#fff" stroke-width="14" />
+    <rect x="130" y="155" width="110" height="18" fill="#fb7185" opacity=".5" /><path d="M160 92c-10-15 10-20 0-35M200 92c-10-15 10-20 0-35" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85" />
+  </g>)}
+  {name === 'candle' && (<g>
+    <rect x="140" y="130" width="120" height="100" rx="16" fill="#fff" /><rect x="140" y="130" width="120" height="30" rx="12" fill="#fdba74" /><path d="M200 130v-25" stroke="#78350f" stroke-width="5" />
+    <path d="M200 58c22 25 18 42 0 46-18-4-22-21 0-46z" fill="#f59e0b" /><path d="M200 80c8 10 6 18 0 20-6-2-8-9 0-20z" fill="#fef3c7" />
+  </g>)}
+  {name === 'tote' && (<g>
+    <path d="M160 125c0-52 80-52 80 0" fill="none" stroke="#fff" stroke-width="12" /><path d="M120 120h160l14 130H106z" fill="#fff" /><circle cx="200" cy="185" r="28" fill="#a8a29e" opacity=".45" /><path d="M200 210c-9-26 0-42 0-42s15 21 0 42z" fill="#57534e" />
+  </g>)}
+  {name === 'notebook' && (<g>
+    <rect x="120" y="45" width="160" height="210" rx="14" fill="#7c2d12" /><rect x="120" y="45" width="26" height="210" rx="10" fill="#431407" /><rect x="235" y="45" width="16" height="210" fill="#fbbf24" />
+    <rect x="165" y="100" width="55" height="8" rx="4" fill="#fed7aa" /><rect x="165" y="118" width="38" height="8" rx="4" fill="#fed7aa" />
+  </g>)}
+  {name === 'organizer' && (<g>
+    <rect x="105" y="90" width="12" height="60" rx="4" fill="#ef4444" /><rect x="185" y="70" width="12" height="80" rx="4" fill="#3b82f6" /><rect x="265" y="100" width="12" height="50" rx="4" fill="#22c55e" />
+    <rect x="90" y="140" width="220" height="100" rx="12" fill="#a16207" /><path d="M165 140v100M240 140v100" stroke="#713f12" stroke-width="6" />
+  </g>)}
+  {name === 'pencase' && (<g>
+    <rect x="130" y="70" width="12" height="60" rx="3" fill="#fbbf24" /><rect x="160" y="60" width="12" height="70" rx="3" fill="#fb7185" /><rect x="190" y="75" width="12" height="55" rx="3" fill="#fff" />
+    <rect x="90" y="120" width="220" height="100" rx="50" fill="#0f766e" /><path d="M120 170h160" stroke="#99f6e4" stroke-width="5" stroke-dasharray="10 8" />
+  </g>)}
+  {name === 'brand' && (<g>
+    <circle cx="200" cy="150" r="90" fill="#fff" /><path d="M160 135h80v40a40 40 0 01-80 0z" fill="#7c3aed" /><path d="M240 145h14a16 16 0 010 32h-14" fill="none" stroke="#7c3aed" stroke-width="8" />
+    <path d="M185 120c-6-10 6-14 0-24M215 120c-6-10 6-14 0-24" stroke="#a78bfa" stroke-width="5" fill="none" stroke-linecap="round" />
+  </g>)}
+  {name === 'app' && (<g>
+    <rect x="140" y="25" width="120" height="250" rx="24" fill="#1e293b" /><rect x="150" y="45" width="100" height="210" rx="14" fill="#fff" /><rect x="160" y="60" width="80" height="44" rx="8" fill="#a78bfa" />
+    <rect x="160" y="114" width="80" height="24" rx="6" fill="#e2e8f0" /><rect x="160" y="146" width="80" height="24" rx="6" fill="#e2e8f0" /><circle cx="200" cy="218" r="14" fill="#7c3aed" />
+  </g>)}
+  {name === 'poster' && (<g>
+    <rect x="120" y="25" width="160" height="250" rx="6" fill="#fff" /><circle cx="200" cy="110" r="44" fill="#e879f9" /><circle cx="224" cy="124" r="26" fill="#fb7185" opacity=".85" />
+    <rect x="145" y="190" width="110" height="12" rx="4" fill="#1e293b" /><rect x="145" y="213" width="70" height="8" rx="4" fill="#94a3b8" />
+  </g>)}
+  {name === 'folio' && (<g>
+    <circle cx="140" cy="130" r="90" fill="#8b5cf6" opacity=".9" /><circle cx="250" cy="175" r="80" fill="#e879f9" opacity=".85" />
+    <rect x="200" y="45" width="120" height="120" rx="28" fill="#38bdf8" opacity=".8" transform="rotate(12 260 105)" /><path d="M50 255c70-40 130-40 300 0" stroke="#1e293b" stroke-width="6" fill="none" stroke-linecap="round" />
+  </g>)}
+  {name === 'soup' && (<g>
+    <path d="M160 130c-12-20 12-30 0-52M205 130c-12-20 12-30 0-52M250 130c-12-20 12-30 0-52" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85" />
+    <path d="M90 160h220a110 90 0 01-220 0z" fill="#b91c1c" /><rect x="80" y="150" width="240" height="16" rx="8" fill="#fff" /><path d="M110 160h180a90 40 0 01-180 0z" fill="#f59e0b" />
+    <circle cx="170" cy="164" r="7" fill="#dc2626" /><circle cx="215" cy="170" r="6" fill="#65a30d" /><circle cx="250" cy="163" r="7" fill="#dc2626" />
+  </g>)}
+</svg>

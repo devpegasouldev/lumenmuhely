@@ -1,0 +1,60 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import DemoHeader from '../../components/demo/DemoHeader.astro';
+import DemoFooter from '../../components/demo/DemoFooter.astro';
+import DemoArt from '../../components/DemoArt.astro';
+const menu = [
+  { c: 'Levesek', items: [{ n: 'Gulyásleves', p: '2 400 Ft' }, { n: 'Húsleves cérnametélttel', p: '2 200 Ft' }] },
+  { c: 'Főételek', items: [{ n: 'Rántott sajt, hasábburgonyával', p: '3 200 Ft' }, { n: 'Paprikás csirke nokedlival', p: '3 600 Ft' }] },
+  { c: 'Desszertek', items: [{ n: 'Somlói galuska', p: '1 800 Ft' }, { n: 'Palacsinta', p: '1 500 Ft' }] },
+];
+const info = [{ t: 'Nyitvatartás', d: 'Kedd–vasárnap, 11:30–22:00' }, { t: 'Cím', d: '1051 Budapest, Példa utca 12.' }, { t: 'Telefon', d: '+36 1 234 5678' }];
+---
+<DemoLayout title="Helyi Étterem Foglalási Demó">
+  <div id="top" class="min-h-screen bg-amber-50 font-sans text-stone-800">
+    <DemoHeader brand="Kis Kert Étterem" links={[{ href: '#etlap', label: 'Étlap' }, { href: '#info', label: 'Elérhetőség' }]} cta="Asztalfoglalás" ctaHref="#foglalas" brandClass="text-red-800" btnClass="bg-red-800 hover:bg-red-900" />
+    <main>
+      <section class="mx-auto grid max-w-6xl items-center gap-10 px-5 py-12 md:grid-cols-2 md:py-20">
+        <div>
+          <h1 class="font-display text-5xl font-extrabold leading-tight text-stone-900 sm:text-6xl">Házias ízek, asztalfoglalás egy perc alatt.</h1>
+          <p class="mt-5 max-w-[46ch] text-lg text-stone-600">Napi menü, friss alapanyagok és családias hangulat. Foglalj online, és mi már várunk.</p>
+          <a href="#foglalas" class="mt-8 inline-block rounded-xl bg-red-800 px-7 py-3 font-semibold text-white shadow-lg shadow-red-900/30 transition hover:-translate-y-0.5">Asztalt foglalok</a>
+        </div>
+        <div class="h-72 overflow-hidden rounded-3xl shadow-xl md:h-96"><DemoArt name="soup" label="Gőzölgő leves egy tálban" /></div>
+      </section>
+
+      <section id="etlap" class="mx-auto max-w-6xl scroll-mt-4 px-5 py-12" aria-labelledby="mh">
+        <h2 id="mh" class="font-display text-3xl font-extrabold text-stone-900">Étlap</h2>
+        <div class="mt-8 grid gap-5 md:grid-cols-3">
+          {menu.map((m) => (
+            <article class="rounded-3xl bg-white p-7 shadow-sm ring-1 ring-amber-200 transition hover:-translate-y-1 hover:shadow-md">
+              <h3 class="font-display text-xl font-extrabold text-red-800">{m.c}</h3>
+              <ul class="mt-4 divide-y divide-amber-100">
+                {m.items.map((i) => <li class="flex justify-between gap-4 py-3"><span>{i.n}</span><span class="shrink-0 font-semibold">{i.p}</span></li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="info" class="mx-auto grid max-w-6xl scroll-mt-4 gap-5 px-5 py-8 md:grid-cols-3" aria-label="Elérhetőség">
+        {info.map((i) => <div class="rounded-2xl bg-amber-100 p-6"><h3 class="font-semibold text-red-800">{i.t}</h3><p class="mt-1">{i.d}</p></div>)}
+      </section>
+
+      <section id="foglalas" class="mx-auto max-w-xl scroll-mt-4 px-5 py-12" aria-labelledby="bh">
+        <form id="f" class="space-y-4 rounded-3xl bg-white p-8 shadow-md ring-1 ring-amber-200">
+          <h2 id="bh" class="font-display text-2xl font-extrabold">Asztalfoglalás</h2>
+          <input required type="date" aria-label="Dátum" class="w-full rounded-xl border border-stone-300 px-4 py-3" />
+          <select required aria-label="Létszám" class="w-full rounded-xl border border-stone-300 px-4 py-3"><option value="">Létszám</option>{[1, 2, 3, 4, 5, 6].map((n) => <option value={n}>{n} fő</option>)}</select>
+          <input required aria-label="Név" placeholder="Név" class="w-full rounded-xl border border-stone-300 px-4 py-3" />
+          <button class="w-full rounded-xl bg-red-800 py-3 font-semibold text-white transition hover:bg-red-900">Foglalok</button>
+          <p id="ok" class="hidden rounded-xl bg-emerald-50 px-4 py-3 text-emerald-800" role="status">Köszönjük! Ez demó, ezért a foglalás nem kerül elküldésre.</p>
+        </form>
+      </section>
+    </main>
+    <DemoFooter brand="Kis Kert Étterem" />
+  </div>
+  <script>
+    document.getElementById('f')?.addEventListener('submit', (e) => { e.preventDefault(); document.getElementById('ok')?.classList.remove('hidden'); });
+  </script>
+</DemoLayout>

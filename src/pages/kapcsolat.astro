@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactForm from '../components/ContactForm.astro';
+import MapCard from '../components/MapCard.astro';
+
+const contacts = [
+  { label: 'E-mail', value: 'hello@lumenmuhely.hu', href: 'mailto:hello@lumenmuhely.hu' },
+  { label: 'Telefon', value: '+36 1 234 5678', href: 'tel:+3612345678' },
+  { label: 'Cím', value: '1051 Budapest, Példa utca 12.', href: undefined },
+];
+---
+<Layout title="Kapcsolat | Lumen műhely" description="Kérj ingyenes konzultációt, vagy írj nekünk. Két munkanapon belül válaszolunk.">
+  <PageHeader title="Beszéljük meg a projektedet" lead="Írd meg, mit szeretnél elérni, és két munkanapon belül jelentkezünk egy első javaslattal. Az első konzultáció ingyenes." />
+  <section class="mx-auto grid max-w-6xl gap-8 px-5 pb-24 pt-6 lg:grid-cols-2" aria-label="Kapcsolatfelvétel">
+    <ContactForm />
+    <div class="flex flex-col gap-6">
+      <ul class="glass space-y-5 rounded-3xl p-8">
+        {contacts.map((c) => (
+          <li>
+            <p class="text-sm text-mist">{c.label}</p>
+            {c.href ? <a href={c.href} class="font-display text-xl font-bold transition-colors hover:text-iris">{c.value}</a> : <p class="font-display text-xl font-bold">{c.value}</p>}
+          </li>
+        ))}
+      </ul>
+      <MapCard />
+    </div>
+  </section>
+</Layout>

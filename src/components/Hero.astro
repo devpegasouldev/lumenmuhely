@@ -1,0 +1,21 @@
+---
+const chips = ['Astro + Tailwind CSS', 'Mobil-első kialakítás', 'Elégedettségi garancia'];
+---
+<section class="mx-auto max-w-6xl px-5 pb-24 pt-20 lg:pt-32" aria-labelledby="hero-title">
+  <div class="hero-rise max-w-3xl">
+    <p class="glass inline-block rounded-full px-4 py-1.5 text-sm text-mist">Új csapat, friss szemlélet</p>
+    <h1 id="hero-title" class="mt-6 font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl">
+      Weboldalak, amelyekből ügyfél lesz.
+    </h1>
+    <p class="mt-6 max-w-[52ch] text-lg leading-relaxed text-mist">
+      Stratégiától az élesítésig egy kézben: gyors, átlátható és mobilon is tökéletes oldalakat tervezünk és építünk, amelyeket átadás előtt mérünk és tesztelünk.
+    </p>
+    <div class="mt-9 flex flex-wrap gap-3">
+      <a href="/kapcsolat" class="rounded-xl bg-iris px-6 py-3 font-semibold text-white shadow-lg shadow-iris/30 transition hover:-translate-y-0.5 hover:brightness-110">Ajánlatot kérek</a>
+      <a href="#prototipusok" class="glass rounded-xl px-6 py-3 font-semibold transition hover:bg-white/10">Prototípusok megtekintése</a>
+    </div>
+    <ul class="mt-10 flex flex-wrap gap-2">
+      {chips.map((c) => <li class="rounded-full bg-white/10 px-4 py-2 text-sm text-mist">{c}</li>)}
+    </ul>
+  </div>
+</section>

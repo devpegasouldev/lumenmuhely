@@ -1,0 +1,63 @@
+---
+const services = ['Weboldal-tervezés', 'Fejlesztés', 'SEO és tartalom', 'Mérés és optimalizálás', 'Még nem tudom'];
+const field = 'mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-snow placeholder:text-mist/60 transition focus:border-iris focus:outline-none';
+---
+<form id="contact-form" novalidate class="glass space-y-5 rounded-3xl p-8">
+  <div>
+    <label for="name" class="font-semibold">Név</label>
+    <input id="name" name="name" type="text" required autocomplete="name" placeholder="Kovács Anna" class={field} />
+  </div>
+  <div>
+    <label for="email" class="font-semibold">E-mail-cím</label>
+    <input id="email" name="email" type="email" required autocomplete="email" placeholder="anna@pelda.hu" class={field} />
+  </div>
+  <div>
+    <label for="service" class="font-semibold">Miben segíthetünk?</label>
+    <select id="service" name="service" required class={field}>
+      <option value="" disabled selected>Válassz szolgáltatást</option>
+      {services.map((s) => <option value={s}>{s}</option>)}
+    </select>
+  </div>
+  <div>
+    <label for="message" class="font-semibold">Üzenet</label>
+    <textarea id="message" name="message" rows="5" required minlength="10" placeholder="Írd le röviden, mit szeretnél megvalósítani." class={field}></textarea>
+  </div>
+  <label class="flex items-start gap-3 text-sm text-mist">
+    <input type="checkbox" name="consent" required class="mt-1 h-4 w-4 accent-iris" />
+    Hozzájárulok, hogy a megadott adataimmal felvegyék velem a kapcsolatot.
+  </label>
+  <p id="form-error" class="hidden rounded-xl bg-red-500/15 px-4 py-3 text-sm text-red-200" role="alert"></p>
+  <button type="submit" class="w-full rounded-xl bg-iris px-6 py-3 font-semibold text-white shadow-lg shadow-iris/30 transition hover:-translate-y-0.5 hover:brightness-110">Üzenet küldése</button>
+  <p id="form-ok" class="hidden rounded-xl bg-emerald-500/15 px-4 py-3 text-emerald-200" role="status">Köszönjük, megkaptuk az üzeneted! Két munkanapon belül jelentkezünk.</p>
+</form>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const err = document.getElementById('form-error') as HTMLElement;
+  const ok = document.getElementById('form-ok') as HTMLElement;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    ok.classList.add('hidden');
+    const bad = Array.from(form.elements).find((el) => (el as HTMLInputElement).willValidate && !(el as HTMLInputElement).checkValidity()) as HTMLInputElement | undefined;
+    if (bad) {
+      err.textContent = 'Kérjük, ellenőrizd a kötelező mezőket: ' + (bad.labels?.[0]?.textContent?.trim() || bad.name) + '.';
+      err.classList.remove('hidden');
+      bad.focus();
+      return;
+    }
+    err.classList.add('hidden');
+    // Éles használathoz cseréld az URL-t a saját űrlapszolgáltatód végpontjára (pl. Formspree).
+    const endpoint = form.dataset.endpoint;
+    try {
+      if (endpoint) {
+        const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error();
+      }
+      form.reset();
+      ok.classList.remove('hidden');
+    } catch {
+      err.textContent = 'A küldés nem sikerült. Próbáld újra, vagy írj közvetlenül a hello@lumenmuhely.hu címre.';
+      err.classList.remove('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,26 @@
+---
+const reviews = [
+  { name: 'Kovács Anna', role: 'Tulajdonos, Kék Kert Pékség', rating: 5, text: 'Két hónap alatt lett működő webshopunk. Az első héten már jöttek a rendelések, és az admin felületet is egyből megértettem.' },
+  { name: 'Dr. Nagy Péter', role: 'Fogorvos', rating: 5, text: 'A betegek végre online is tudnak időpontot foglalni. Azóta lényegesen kevesebbet telefonálunk, mint korábban.' },
+  { name: 'Szabó Márta', role: 'Marketingvezető, Északi Bútor', rating: 4, text: 'Gyors, korrekt csapat. Az oldal villámgyors lett, és a havi riportokból pontosan látjuk, mit érdemes fejleszteni.' },
+];
+---
+<section class="mx-auto max-w-6xl px-5 py-20" aria-labelledby="reviews-title">
+  <h2 id="reviews-title" class="max-w-2xl font-display text-4xl font-extrabold tracking-tight">Amit az ügyfeleink mondanak rólunk</h2>
+  <div class="mt-12 grid gap-5 md:grid-cols-3">
+    {reviews.map((r) => (
+      <figure class="glass flex flex-col rounded-2xl p-7 transition duration-300 hover:-translate-y-1">
+        <div class="flex gap-1" role="img" aria-label={`${r.rating} csillag az 5-ből`}>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" class={n <= r.rating ? 'text-amber' : 'text-white/20'} fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.200 6.8L12 17.7 5.800 21l1.200-6.8-5-4.9 6.9-1z" /></svg>
+          ))}
+        </div>
+        <blockquote class="mt-4 flex-1 leading-relaxed text-mist">{r.text}</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-iris/30 font-display font-bold" aria-hidden="true">{r.name.charAt(0)}</span>
+          <span><span class="block font-semibold">{r.name}</span><span class="text-sm text-mist">{r.role}</span></span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

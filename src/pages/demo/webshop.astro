@@ -1,0 +1,71 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import DemoHeader from '../../components/demo/DemoHeader.astro';
+import DemoFooter from '../../components/demo/DemoFooter.astro';
+import DemoArt from '../../components/DemoArt.astro';
+const cats = ['Mind', 'Otthon', 'Iroda'];
+const products = [
+  { n: 'Kerámia bögre', c: 'Otthon', p: 4900, a: 'mug' }, { n: 'Illatgyertya', c: 'Otthon', p: 3900, a: 'candle' },
+  { n: 'Vászon táska', c: 'Otthon', p: 5500, a: 'tote' }, { n: 'Bőr jegyzetfüzet', c: 'Iroda', p: 6500, a: 'notebook' },
+  { n: 'Fa asztali rendező', c: 'Iroda', p: 9900, a: 'organizer' }, { n: 'Tolltartó', c: 'Iroda', p: 3200, a: 'pencase' },
+];
+const perks = [{ t: 'Gyors szállítás', d: 'Raktárról 1–2 munkanap.' }, { t: '14 napos visszaküldés', d: 'Indoklás nélkül.' }, { t: 'Kézzel készült', d: 'Kis szériás termékek.' }];
+---
+<DemoLayout title="E-commerce Webshop Koncepció">
+  <div id="top" class="min-h-screen bg-stone-50 font-sans text-stone-800">
+    <DemoHeader brand="Kis Bolt" links={[{ href: '#termekek', label: 'Termékek' }, { href: '#miert', label: 'Miért mi?' }]} cta="Kosár" ctaHref="#kosar" brandClass="text-rose-700" btnClass="bg-rose-600 hover:bg-rose-700" />
+    <main>
+      <section class="mx-auto max-w-6xl px-5 py-8">
+        <div class="grid items-center gap-8 rounded-3xl bg-rose-100 p-8 md:grid-cols-2 md:p-12">
+          <div>
+            <h1 class="font-display text-5xl font-extrabold leading-tight text-stone-900">Kézműves apróságok az otthonodba.</h1>
+            <p class="mt-4 max-w-[42ch] text-lg text-stone-600">Kis szériás bögrék, gyertyák és irodai kiegészítők, amelyekből mindig van egy kedvenced.</p>
+            <a href="#termekek" class="mt-7 inline-block rounded-xl bg-stone-900 px-7 py-3 font-semibold text-white transition hover:bg-rose-700">Termékek megtekintése</a>
+          </div>
+          <div class="h-64 overflow-hidden rounded-2xl shadow-lg"><DemoArt name="mug" label="Kerámia bögre" /></div>
+        </div>
+      </section>
+
+      <section id="termekek" class="mx-auto max-w-6xl scroll-mt-4 px-5 py-12" aria-labelledby="th">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <h2 id="th" class="font-display text-3xl font-extrabold text-stone-900">Termékeink</h2>
+          <div class="flex gap-2" role="group" aria-label="Kategóriák">
+            {cats.map((c, i) => <button data-f={c} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-stone-300 px-4 py-2 text-sm transition aria-pressed:border-rose-600 aria-pressed:bg-rose-600 aria-pressed:text-white">{c}</button>)}
+          </div>
+        </div>
+        <ul id="grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((p) => (
+            <li data-c={p.c} class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-stone-200 transition hover:-translate-y-1 hover:shadow-md">
+              <div class="h-44"><DemoArt name={p.a} label={p.n} /></div>
+              <div class="p-5">
+                <h3 class="font-display text-lg font-bold">{p.n}</h3>
+                <p class="text-stone-500">{p.p.toLocaleString('hu-HU')} Ft</p>
+                <button data-add={p.p} class="mt-4 w-full rounded-xl bg-stone-900 py-2.5 font-semibold text-white transition hover:bg-rose-700">Kosárba</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p id="kosar" class="mt-8 scroll-mt-20 rounded-2xl bg-white p-5 font-semibold shadow-sm ring-1 ring-stone-200" aria-live="polite">Kosár: <span id="cnt">0</span> termék, összesen <span id="sum">0</span> Ft</p>
+      </section>
+
+      <section id="miert" class="mx-auto grid max-w-6xl scroll-mt-4 gap-5 px-5 py-8 md:grid-cols-3" aria-label="Előnyök">
+        {perks.map((p) => <div class="rounded-2xl bg-white p-6 ring-1 ring-stone-200"><h3 class="font-display text-lg font-bold text-rose-700">{p.t}</h3><p class="mt-1 text-stone-600">{p.d}</p></div>)}
+      </section>
+    </main>
+    <DemoFooter brand="Kis Bolt" />
+  </div>
+  <script>
+    let n = 0, s = 0;
+    const $ = (id: string) => document.getElementById(id)!;
+    document.querySelectorAll<HTMLButtonElement>('[data-add]').forEach((b) =>
+      b.addEventListener('click', () => { n++; s += Number(b.dataset.add); $('cnt').textContent = String(n); $('sum').textContent = s.toLocaleString('hu-HU'); })
+    );
+    const fs = document.querySelectorAll<HTMLButtonElement>('[data-f]');
+    fs.forEach((b) =>
+      b.addEventListener('click', () => {
+        fs.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        document.querySelectorAll<HTMLElement>('#grid [data-c]').forEach((li) => li.classList.toggle('hidden', b.dataset.f !== 'Mind' && li.dataset.c !== b.dataset.f));
+      })
+    );
+  </script>
+</DemoLayout>
