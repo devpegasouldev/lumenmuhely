@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   // Éles használat előtt cseréld a saját domainedre!
-  site: 'https://www.lumen.muhely.hu',
+  site: 'https://www.pegasoulsky.hu',
   integrations: [sitemap({ filter: (page) => !page.includes('/404') && !page.includes('/demo/') })],
   vite: { plugins: [tailwindcss()] },
 });
